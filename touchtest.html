@@ -1,0 +1,33 @@
+<head>
+  <title>Test App</title>
+</head>
+
+<body>
+  <div id="outer">
+    {{> things}}
+    <p>
+      Summary: If you call 'update' on a collection from within a touch event handler, subsequent events will be dropped every odd-numbered time.
+    </p>
+    <p>
+      Expected behavior: The node above becomes highlighted when you touch it, and ceases to be highlighted when you stop touching it.
+    </p>
+    <p>Actual behavior: It only ceases to be highlighted every second touch. The log shows unbalanced touch events: that is, the first time a touchstart is received, the corresponding touchend is not received; but it works correctly the second time. Hence the log shows 'start, start, end, start, start, end, ...'.</p>
+    <p>
+      The behavior is correct on the desktop using 'mousedown' and 'mouseup' instead of 'touchstart' and 'touchend'. The events arrive correctly if you comment out the 'update' calls. (Use the log to see the events arriving).
+    </p>
+    <p>Tested on: iOS 5.1.1 (iPad) and iOS 6.1.2 (iPhone) with both Meteor 0.6.2.1 and the latest from git.</p>
+  </div>
+</body>
+
+<template name="things">
+  <ul id="things">
+    {{#each things}}
+      {{> thing}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="thing">
+  <li class="thing {{selected}}">Touch me</li>
+</template>
+
